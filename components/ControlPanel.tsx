@@ -37,8 +37,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, t
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setConfig(prev => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    let newValue: string | number | boolean = value;
+
+    // Handle number inputs (sliders)
+    if (type === 'range' || name === 'animationDuration' || name === 'animationDelay') {
+      newValue = parseFloat(value);
+    }
+
+    setConfig(prev => ({ ...prev, [name]: newValue }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -351,7 +358,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, t
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-gray-500">Animation</label>
+            <label className="text-xs text-gray-500">Animation Type</label>
             <select
             name="animationType"
             value={config.animationType}
@@ -362,6 +369,41 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, t
                 <option key={anim} value={anim}>{anim}</option>
               ))}
             </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs text-gray-500 flex justify-between">
+                <span>Duration</span>
+                <span className="text-gray-400">{config.animationDuration}s</span>
+              </label>
+              <input
+                type="range"
+                name="animationDuration"
+                min="0.2"
+                max="3.0"
+                step="0.1"
+                value={config.animationDuration}
+                onChange={handleInputChange}
+                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs text-gray-500 flex justify-between">
+                <span>Delay</span>
+                <span className="text-gray-400">{config.animationDelay}s</span>
+              </label>
+              <input
+                type="range"
+                name="animationDelay"
+                min="0"
+                max="5.0"
+                step="0.1"
+                value={config.animationDelay}
+                onChange={handleInputChange}
+                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              />
+            </div>
           </div>
           
           <div className="space-y-1">

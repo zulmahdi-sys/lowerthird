@@ -18,6 +18,8 @@ const DEFAULT_CONFIG: LowerThirdConfig = {
   theme: ThemeType.MODERN,
   fontFamily: 'Inter',
   animationType: AnimationType.SLIDE,
+  animationDuration: 0.8,
+  animationDelay: 0,
   primaryColor: '#6366f1', // Indigo 500
   secondaryColor: '#f3f4f6', // Gray 100
   position: Position.BOTTOM_LEFT,

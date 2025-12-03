@@ -37,7 +37,8 @@ const LiveBadge: React.FC = () => (
 export const LowerThirdRenderer: React.FC<LowerThirdRendererProps> = ({ config }) => {
   const { 
     headline, subheadline, theme, primaryColor, secondaryColor, 
-    isVisible, previewMode, fontFamily, animationType, tickerText, showLiveBadge, showClock 
+    isVisible, previewMode, fontFamily, animationType, tickerText, showLiveBadge, showClock,
+    animationDuration, animationDelay
   } = config;
 
   // Calculate effective visibility: Shown if "Live" OR in "Preview Mode"
@@ -45,10 +46,17 @@ export const LowerThirdRenderer: React.FC<LowerThirdRendererProps> = ({ config }
 
   // Calculate dynamic animation styles based on selected type
   const getAnimationStyles = (): React.CSSProperties => {
-    const duration = '0.8s';
+    const durationStr = `${animationDuration}s`;
     const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
-    const transition = `all ${duration} ${ease}`;
-    const baseStyle = { transition };
+    const transition = `all ${durationStr} ${ease}`;
+    
+    // Apply delay only when showing (entering)
+    const delayStr = show ? `${animationDelay}s` : '0s';
+
+    const baseStyle = { 
+        transition,
+        transitionDelay: delayStr
+    };
 
     switch (animationType) {
       case AnimationType.FADE:

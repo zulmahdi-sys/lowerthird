@@ -30,6 +30,8 @@ export interface LowerThirdConfig {
   theme: ThemeType;
   fontFamily: string; // Font Family name
   animationType: AnimationType;
+  animationDuration: number; // in seconds
+  animationDelay: number; // in seconds
   primaryColor: string; // Hex code
   secondaryColor: string; // Hex code
   position: Position;
