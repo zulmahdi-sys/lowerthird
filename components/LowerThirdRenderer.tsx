@@ -37,8 +37,11 @@ const LiveBadge: React.FC = () => (
 export const LowerThirdRenderer: React.FC<LowerThirdRendererProps> = ({ config }) => {
   const { 
     headline, subheadline, theme, primaryColor, secondaryColor, 
-    isVisible, fontFamily, animationType, tickerText, showLiveBadge, showClock 
+    isVisible, previewMode, fontFamily, animationType, tickerText, showLiveBadge, showClock 
   } = config;
+
+  // Calculate effective visibility: Shown if "Live" OR in "Preview Mode"
+  const show = isVisible || previewMode;
 
   // Calculate dynamic animation styles based on selected type
   const getAnimationStyles = (): React.CSSProperties => {
@@ -49,19 +52,19 @@ export const LowerThirdRenderer: React.FC<LowerThirdRendererProps> = ({ config }
 
     switch (animationType) {
       case AnimationType.FADE:
-        return { ...baseStyle, opacity: isVisible ? 1 : 0 };
+        return { ...baseStyle, opacity: show ? 1 : 0 };
       case AnimationType.TYPEWRITER:
         return {
           ...baseStyle,
-          clipPath: isVisible ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)',
+          clipPath: show ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)',
           opacity: 1,
         };
       case AnimationType.SLIDE:
       default:
         return {
           ...baseStyle,
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(2rem)',
+          opacity: show ? 1 : 0,
+          transform: show ? 'translateY(0)' : 'translateY(2rem)',
         };
     }
   };
@@ -159,7 +162,7 @@ export const LowerThirdRenderer: React.FC<LowerThirdRendererProps> = ({ config }
       </div>
 
       {/* Full Width Ticker at the absolute bottom of the screen */}
-      {isVisible && tickerText && (
+      {show && tickerText && (
          <div 
            className="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-md text-white overflow-hidden py-2 border-t-2 z-50"
            style={{ borderColor: primaryColor }}

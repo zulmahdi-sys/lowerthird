@@ -50,6 +50,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, t
     setConfig(prev => ({ ...prev, isVisible: !prev.isVisible }));
   };
 
+  const handleTogglePreview = () => {
+    setConfig(prev => ({ ...prev, previewMode: !prev.previewMode }));
+  };
+
   const handleAIGenerate = async () => {
     if (!topic) return;
     setIsGenerating(true);
@@ -132,16 +136,29 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, t
         {/* Master Control */}
         <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
           <label className="text-xs font-bold text-gray-400 uppercase mb-3 block">Master Control</label>
-          <button
-            onClick={handleToggleVisible}
-            className={`w-full py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg ${
-              config.isVisible 
-                ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
-                : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20'
-            }`}
-          >
-            {config.isVisible ? 'HIDE OVERLAY' : 'SHOW OVERLAY'}
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={handleToggleVisible}
+              className={`w-full py-3 rounded-lg font-bold text-base transition-all duration-300 shadow-lg ${
+                config.isVisible 
+                  ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
+                  : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20'
+              }`}
+            >
+              {config.isVisible ? 'STOP SHOWING (LIVE)' : 'GO LIVE (SHOW OVERLAY)'}
+            </button>
+            
+            <button
+              onClick={handleTogglePreview}
+              className={`w-full py-2 rounded-lg font-medium text-xs transition-colors border ${
+                config.previewMode
+                  ? 'bg-gray-700 text-white border-gray-500' 
+                  : 'bg-transparent text-gray-400 border-gray-700 hover:bg-gray-800'
+              }`}
+            >
+              {config.previewMode ? 'PREVIEW MODE: ON (Visible Locally)' : 'Enable Preview Mode'}
+            </button>
+          </div>
         </div>
 
         {/* OBS / vMix Integration Link */}

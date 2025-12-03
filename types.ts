@@ -33,7 +33,9 @@ export interface LowerThirdConfig {
   primaryColor: string; // Hex code
   secondaryColor: string; // Hex code
   position: Position;
-  isVisible: boolean; // Controls the animation in/out
+  
+  isVisible: boolean; // Controls the "Live" animation in/out
+  previewMode: boolean; // Controls the "Preview" visibility (separate from Live)
   
   // Content Management
   contentSlots: ContentSlot[];

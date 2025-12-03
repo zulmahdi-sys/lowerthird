@@ -22,6 +22,7 @@ const DEFAULT_CONFIG: LowerThirdConfig = {
   secondaryColor: '#f3f4f6', // Gray 100
   position: Position.BOTTOM_LEFT,
   isVisible: true,
+  previewMode: false,
   tickerText: 'Welcome to the stream! Don\'t forget to follow and subscribe for more content.',
   showLiveBadge: true,
   showClock: true,
